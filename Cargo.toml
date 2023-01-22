@@ -6,3 +6,8 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+actix-web = "4.2"
+rusqlite = "0.28.0"
+serde_yaml = "0.9"
+serde = { version = "1.0", features = ['derive'] }
+swarm_protocol = { git = "https://github.com/LEDswarm/protocol" }
