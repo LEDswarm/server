@@ -1,36 +1,24 @@
-use actix::{Actor, StreamHandler};
+pub mod console;
+pub mod controller;
+pub mod server;
+
 use actix_web::{web, App, Error, HttpRequest, HttpResponse, HttpServer};
 use actix_web_actors::ws;
+use std::collections::HashMap;
 
-/// Define HTTP actor
-struct WebsocketServer;
-
-impl Actor for WebsocketServer {
-    type Context = ws::WebsocketContext<Self>;
-}
-
-/// Handler for ws::Message message
-impl StreamHandler<Result<ws::Message, ws::ProtocolError>> for WebsocketServer {
-    fn handle(&mut self, msg: Result<ws::Message, ws::ProtocolError>, ctx: &mut Self::Context) {
-        match msg {
-            Ok(ws::Message::Ping(msg)) => ctx.pong(&msg),
-            Ok(ws::Message::Text(text)) => ctx.text(text),
-            Ok(ws::Message::Binary(bin)) => ctx.binary(bin),
-            _ => (),
-        }
-    }
-}
+use self::server::WebsocketServer;
 
 async fn index(req: HttpRequest, stream: web::Payload) -> Result<HttpResponse, Error> {
-    let resp = ws::start(WebsocketServer {}, &req, stream);
+    let resp = ws::start(WebsocketServer { controllers: HashMap::new() }, &req, stream);
     println!("{:?}", resp);
     resp
 }
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
+    console::info("WebSocket server listening on 127.0.0.1:52400");
     HttpServer::new(|| App::new().route("/ws/", web::get().to(index)))
-        .bind(("127.0.0.1", 8080))?
+        .bind(("127.0.0.1", 52400))?
         .run()
         .await
 }
