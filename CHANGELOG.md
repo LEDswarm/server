@@ -31,4 +31,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Add the crate dependencies `serde`, `serde_yaml`, `rusqlite`, `actix`, `actix-web` and `actix-web-actors` for configuration, data storage and web server functionality, respectively.
+- The crate dependencies `serde`, `serde_yaml`, `rusqlite`, `actix`, `actix-web` and `actix-web-actors` for configuration, data storage and web server functionality, respectively.
+- The `colored` dependency so we can provide some nice debug output.
+- The `Controller` struct, which represents a microcontroller client.
+- A helper method for console output.
+- A basic WebSocket server implementation.
